@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modifier un Smartphone</title>
+    <style>
+        /* Styles similaires à ceux de la page d'ajout */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            width: 80%;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        input, select {
+            padding: 10px;
+            font-size: 16px;
+            width: 100%;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        /* Ajout d'une marge entre les boutons */
+        .buttons-container {
+            display: flex;
+            gap: 20px; /* Espacement entre les boutons */
+            justify-content: space-between;
+        }
+
+        .back-btn {
+            background-color: #f44336;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .back-btn:hover {
+            background-color: #e53935;
+        }
+
+        .button {
+            flex: 1; /* Cela permet d'étirer le bouton pour qu'il prenne toute la largeur disponible */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Modifier un Smartphone</h1>
+        
+        <form th:action="@{/editSmartphone/{id}(id=${smartphone.id})}" method="post">
+            <input type="text" name="serialNumber" th:value="${smartphone.serialNumber}" required>
+            <input type="text" name="brand" th:value="${smartphone.brand}" required>
+            <input type="date" name="releaseDate" th:value="${smartphone.releaseDate}" required>
+            
+            <select name="status" required>
+                <option th:value="AVAILABLE" th:text="'Disponible'" th:selected="${smartphone.status == 'AVAILABLE'}"></option>
+                <option th:value="BORROWED" th:text="'Emprunté'" th:selected="${smartphone.status == 'BORROWED'}"></option>
+            </select>
+            
+            <div class="buttons-container">
+                <button type="submit">Mettre à jour</button>
+                <a href="/" class="back-btn">Retour à l'accueil</a>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

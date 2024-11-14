@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accueil</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            width: 80%;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .button:hover {
+            background-color: #45a049;
+        }
+
+        .button-delete {
+            background-color: #e74c3c;
+        }
+
+        .button-delete:hover {
+            background-color: #c0392b;
+        }
+
+        .actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .add-smartphone {
+            margin-bottom: 20px;
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Message d'accueil dynamique -->
+        <h1 th:text="${message}">Bienvenue sur notre site de Smartphones!</h1>
+
+        <!-- Lien pour ajouter un nouvel smartphone -->
+        <div class="add-smartphone">
+            <a href="/addSmartphone" class="button">Ajouter un smartphone</a>
+        </div>
+
+        <!-- Tableau des smartphones -->
+        <table>
+            <thead>
+                <tr>
+                    <th>Numéro de série</th>
+                    <th>Marque</th>
+                    <th>Date de sortie</th>
+                    <th>Statut</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Boucle Thymeleaf pour afficher la liste des smartphones -->
+                <tr th:each="smartphone : ${smartphones}">
+                    <td th:text="${smartphone.serialNumber}">Numéro de série</td>
+                    <td th:text="${smartphone.brand}">Marque</td>
+                    <td th:text="${smartphone.releaseDate}">Date de sortie</td>
+                    <td th:text="${smartphone.status}">Statut</td>
+                    <td class="actions">
+                        <!-- Lien pour modifier un smartphone -->
+                        <a th:href="@{/editSmartphone/{id}(id=${smartphone.id})}" class="button">Modifier</a>
+
+                        <!-- Formulaire pour supprimer un smartphone -->
+                        <form th:action="@{/deleteSmartphone/{id}(id=${smartphone.id})}" method="post">
+                            <button type="submit" class="button button-delete">Supprimer</button>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

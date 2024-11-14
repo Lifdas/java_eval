@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ajouter un Smartphone</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            width: 60%;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+		button {
+		    background-color: #4CAF50;
+		    color: white;
+		    padding: 10px;
+		    border: none;
+		    border-radius: 5px;
+		    cursor: pointer;
+		}
+
+		button:hover {
+		    background-color: #45a049;
+		}
+
+		/* Ajout d'une marge entre les boutons */
+		.buttons-container {
+		    display: flex;
+		    gap: 20px; /* Espacement entre les boutons */
+		    justify-content: space-between;
+		}
+
+		.back-btn {
+		    background-color: #f44336;
+		    color: white;
+		    padding: 10px;
+		    border: none;
+		    border-radius: 5px;
+		    cursor: pointer;
+		    text-decoration: none;
+		}
+
+		.back-btn:hover {
+		    background-color: #e53935;
+		}
+
+		.button {
+		    flex: 1; /* Cela permet d'étirer le bouton pour qu'il prenne toute la largeur disponible */
+		}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Ajouter un Smartphone</h1>
+
+        <form id="add-smartphone-form">
+            <div class="form-group">
+                <label for="serialNumber">Numéro de série</label>
+                <input type="text" id="serialNumber" name="serialNumber" placeholder="Entrez le numéro de série" required>
+            </div>
+            <div class="form-group">
+                <label for="brand">Marque</label>
+                <input type="text" id="brand" name="brand" placeholder="Entrez la marque" required>
+            </div>
+            <div class="form-group">
+                <label for="releaseDate">Date de sortie</label>
+                <input type="date" id="releaseDate" name="releaseDate" required>
+            </div>
+            <div class="form-group">
+                <label for="status">Statut</label>
+                <select id="status" name="status" required>
+                    <option value="AVAILABLE">Disponible</option>
+                    <option value="BORROWED">Emprunté</option>
+                </select>
+            </div>
+			<div class="buttons-container">
+			    <button type="submit">Ajouter </button>
+			    <a href="/" class="back-btn">Retour à l'accueil</a>
+			</div>
+    </div>
+
+    <script>
+        // Soumettre le formulaire via une requête POST AJAX
+        document.getElementById('add-smartphone-form').addEventListener('submit', function(event) {
+            event.preventDefault(); // Empêche la soumission normale du formulaire
+
+            const smartphoneData = {
+                serialNumber: document.getElementById('serialNumber').value,
+                brand: document.getElementById('brand').value,
+                releaseDate: document.getElementById('releaseDate').value,
+                status: document.getElementById('status').value
+            };
+
+            fetch('/api/smartphones', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(smartphoneData)
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert('Smartphone ajouté avec succès!');
+                    window.location.href = '/';  // Rediriger vers la liste des smartphones
+                } else {
+                    alert('Erreur lors de l\'ajout du smartphone');
+                }
+            })
+            .catch(error => {
+                console.error('Erreur:', error);
+                alert('Une erreur s\'est produite');
+            });
+        });
+    </script>
+</body>
+</html>
